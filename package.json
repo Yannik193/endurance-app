@@ -1,0 +1,33 @@
+{
+  "name": "endurance-app",
+  "version": "1.0.0",
+  "description": "A minimalist Progressive Web App for tracking endurance workouts, optimized for iPhone XS",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "npx http-server -p 8000",
+    "build": "echo 'No build step required for this vanilla JS app'",
+    "test": "echo 'No tests specified'"
+  },
+  "keywords": [
+    "pwa",
+    "workout",
+    "endurance",
+    "fitness",
+    "iphone",
+    "mobile",
+    "tracking",
+    "offline"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/endurance-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/endurance-app/issues"
+  },
+  "homepage": "https://github.com/yourusername/endurance-app#readme",
+  "devDependencies": {}
+}

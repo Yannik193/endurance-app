@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Endurance</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Apple-specific meta tags for iPhone XS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Endurance">
+    
+    <!-- iPhone XS specific viewport -->
+    <meta name="viewport" content="width=375, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <!-- Icons for iPhone XS -->
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32x32.png">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="app-title">Endurance</h1>
+        </header>
+        
+        <main class="workout-form">
+            <form id="workoutForm">
+                <div class="form-group">
+                    <label for="activity">Activity</label>
+                    <select id="activity" name="activity">
+                        <option value="">Select</option>
+                        <option value="running">Running</option>
+                        <option value="cycling">Cycling</option>
+                        <option value="kayaking">Kayaking</option>
+                        <option value="hiking">Hiking</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="totalTime">Total Time Workout</label>
+                    <input type="text" id="totalTime" name="totalTime" placeholder="HH:MM:SS">
+                </div>
+                
+                <div class="form-group">
+                    <label for="distance">Distance (km)</label>
+                    <input type="number" id="distance" name="distance" step="0.1" placeholder="0.0">
+                </div>
+                
+                <div class="form-group">
+                    <label for="elevation">Elevation Gain (m)</label>
+                    <input type="number" id="elevation" name="elevation" placeholder="0">
+                </div>
+                
+                <div class="form-group">
+                    <label for="hrZone1">HR Zone 1</label>
+                    <input type="text" id="hrZone1" name="hrZone1" placeholder="HH:MM:SS">
+                </div>
+                
+                <div class="form-group">
+                    <label for="hrZone2">HR Zone 2</label>
+                    <input type="text" id="hrZone2" name="hrZone2" placeholder="HH:MM:SS">
+                </div>
+                
+                <div class="form-group">
+                    <label for="hrZone3">HR Zone 3</label>
+                    <input type="text" id="hrZone3" name="hrZone3" placeholder="HH:MM:SS">
+                </div>
+                
+                <div class="form-group">
+                    <label for="hrZone4">HR Zone 4</label>
+                    <input type="text" id="hrZone4" name="hrZone4" placeholder="HH:MM:SS">
+                </div>
+                
+                <div class="form-group">
+                    <label for="hrZone5">HR Zone 5</label>
+                    <input type="text" id="hrZone5" name="hrZone5" placeholder="HH:MM:SS">
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="save-btn">Save Workout</button>
+                    <button type="button" class="clear-btn" onclick="clearForm()">Clear</button>
+                </div>
+            </form>
+        </main>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>
