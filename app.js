@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
     timeInputs.forEach(id => {
         const input = document.getElementById(id);
         input.addEventListener('blur', validateTimeFormat);
-        input.addEventListener('input', handleTimeInput);
+        // Remove the input event listener that was causing problems
     });
 });
 
@@ -44,7 +44,7 @@ function validateTimeFormat(e) {
     const value = input.value.trim();
     
     if (value) {
-        // Auto-format time input
+        // Auto-format time input only on blur (when user leaves the field)
         const formattedTime = autoFormatTime(value);
         if (formattedTime) {
             input.value = formattedTime;
@@ -61,26 +61,6 @@ function validateTimeFormat(e) {
     }
 }
 
-function handleTimeInput(e) {
-    const input = e.target;
-    const value = input.value;
-    const cursorPosition = input.selectionStart;
-    
-    // Allow typing, but don't auto-format until certain length
-    const digitsOnly = value.replace(/[^\d]/g, '');
-    
-    // Auto-format when user reaches certain digit counts
-    if (digitsOnly.length === 6 || digitsOnly.length === 4 || digitsOnly.length === 2) {
-        const formatted = autoFormatTime(value);
-        if (formatted && formatted !== value) {
-            input.value = formatted;
-            // Try to maintain cursor position
-            const newPosition = Math.min(cursorPosition + 1, formatted.length);
-            input.setSelectionRange(newPosition, newPosition);
-        }
-    }
-}
-
 function autoFormatTime(input) {
     // Remove any existing colons and non-digits
     const digitsOnly = input.replace(/[^\d]/g, '');
@@ -90,29 +70,39 @@ function autoFormatTime(input) {
         return '';
     }
     
-    if (digitsOnly.length <= 2) {
-        // Just seconds: "25" -> "00:00:25"
-        const seconds = digitsOnly.padStart(2, '0');
+    if (digitsOnly.length === 1) {
+        // Single digit: "5" -> "00:00:05"
+        return `00:00:0${digitsOnly}`;
+    } else if (digitsOnly.length === 2) {
+        // Two digits: "25" -> "00:00:25"
+        const seconds = digitsOnly;
         if (parseInt(seconds) <= 59) {
             return `00:00:${seconds}`;
         }
-    } else if (digitsOnly.length <= 4) {
-        // Minutes and seconds: "2534" -> "00:25:34"
-        const minutes = digitsOnly.slice(0, -2).padStart(2, '0');
-        const seconds = digitsOnly.slice(-2);
+    } else if (digitsOnly.length === 3) {
+        // Three digits: "125" -> "00:01:25"
+        const minutes = digitsOnly.slice(0, 1);
+        const seconds = digitsOnly.slice(1);
+        if (parseInt(minutes) <= 59 && parseInt(seconds) <= 59) {
+            return `00:0${minutes}:${seconds}`;
+        }
+    } else if (digitsOnly.length === 4) {
+        // Four digits: "2545" -> "00:25:45"
+        const minutes = digitsOnly.slice(0, 2);
+        const seconds = digitsOnly.slice(2);
         if (parseInt(minutes) <= 59 && parseInt(seconds) <= 59) {
             return `00:${minutes}:${seconds}`;
         }
     } else if (digitsOnly.length === 5) {
-        // Handle 5 digits: "12534" -> "01:25:34"
-        const hours = digitsOnly.slice(0, 1).padStart(2, '0');
+        // Five digits: "12545" -> "01:25:45"
+        const hours = digitsOnly.slice(0, 1);
         const minutes = digitsOnly.slice(1, 3);
         const seconds = digitsOnly.slice(3);
         if (parseInt(hours) <= 23 && parseInt(minutes) <= 59 && parseInt(seconds) <= 59) {
-            return `${hours}:${minutes}:${seconds}`;
+            return `0${hours}:${minutes}:${seconds}`;
         }
     } else if (digitsOnly.length === 6) {
-        // Full format: "003425" -> "00:34:25"
+        // Six digits: "002545" -> "00:25:45"
         const hours = digitsOnly.slice(0, 2);
         const minutes = digitsOnly.slice(2, 4);
         const seconds = digitsOnly.slice(4, 6);
