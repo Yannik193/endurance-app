@@ -13,22 +13,14 @@ if ('serviceWorker' in navigator) {
 
 // Form handling
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('workoutForm');
-    
     // Set current date as default
     setDefaultDate();
-    
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        saveWorkout();
-    });
     
     // Add time format validation and auto-formatting for time inputs
     const timeInputs = ['totalTime', 'hrZone1', 'hrZone2', 'hrZone3', 'hrZone4', 'hrZone5'];
     timeInputs.forEach(id => {
         const input = document.getElementById(id);
         input.addEventListener('blur', validateTimeFormat);
-        // Remove the input event listener that was causing problems
     });
 });
 
@@ -125,41 +117,71 @@ function isValidTimeFormat(time) {
     return timeRegex.test(time);
 }
 
-function saveWorkout() {
+function exportWorkout() {
     const formData = new FormData(document.getElementById('workoutForm'));
     const workoutData = {};
     
+    // Collect all form data
     for (let [key, value] of formData.entries()) {
         workoutData[key] = value;
     }
     
-    // Add timestamp
+    // Add metadata
     workoutData.timestamp = new Date().toISOString();
+    workoutData.exportDate = new Date().toLocaleDateString();
+    workoutData.exportTime = new Date().toLocaleTimeString();
     
-    // Save to localStorage
-    let workouts = JSON.parse(localStorage.getItem('endurance_workouts')) || [];
-    workouts.push(workoutData);
-    localStorage.setItem('endurance_workouts', JSON.stringify(workouts));
+    // Validate that at least some data is entered
+    const hasData = Object.values(workoutData).some(value => value && value.trim() !== '');
+    if (!hasData) {
+        showMessage('Please enter some workout data before exporting.', 'error');
+        return;
+    }
+    
+    // Create JSON string with proper formatting
+    const jsonString = JSON.stringify(workoutData, null, 2);
+    
+    // Create filename with date and activity
+    const date = workoutData.date || new Date().toISOString().split('T')[0];
+    const activity = workoutData.activity || 'workout';
+    const filename = `${date}_${activity}_workout.json`;
+    
+    // Create and trigger download
+    downloadJSON(jsonString, filename);
     
     // Show success message
-    showSuccessMessage('Workout saved successfully!');
-    
-    // Clear form after a short delay
-    setTimeout(() => {
-        clearForm();
-    }, 1500);
+    showMessage(`Workout exported as ${filename}`, 'success');
 }
 
-function showSuccessMessage(message) {
-    // Remove existing success message if any
-    const existingMessage = document.querySelector('.success-message');
+function downloadJSON(jsonString, filename) {
+    // Create blob
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    
+    // Create download link
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    
+    // Trigger download
+    document.body.appendChild(link);
+    link.click();
+    
+    // Cleanup
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+}
+
+function showMessage(message, type = 'success') {
+    // Remove existing message if any
+    const existingMessage = document.querySelector('.message');
     if (existingMessage) {
         existingMessage.remove();
     }
     
-    // Create and show new success message
+    // Create and show new message
     const messageDiv = document.createElement('div');
-    messageDiv.className = 'success-message';
+    messageDiv.className = `message ${type}-message`;
     messageDiv.textContent = message;
     
     const form = document.querySelector('.workout-form');

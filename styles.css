@@ -106,7 +106,7 @@ select option {
     padding-bottom: 30px;
 }
 
-.save-btn,
+.export-btn,
 .clear-btn {
     flex: 1;
     padding: 18px;
@@ -119,13 +119,13 @@ select option {
     -webkit-tap-highlight-color: transparent;
 }
 
-.save-btn {
+.export-btn {
     background-color: #007AFF;
     color: #ffffff;
 }
 
-.save-btn:hover,
-.save-btn:active {
+.export-btn:hover,
+.export-btn:active {
     background-color: #0056CC;
     transform: scale(0.98);
 }
@@ -163,10 +163,8 @@ select option {
     }
 }
 
-/* Success message styles */
-.success-message {
-    background-color: #28a745;
-    color: white;
+/* Message styles */
+.message {
     padding: 15px;
     border-radius: 10px;
     margin-bottom: 20px;
@@ -176,7 +174,17 @@ select option {
     transition: opacity 0.3s ease;
 }
 
-.success-message.show {
+.success-message {
+    background-color: #28a745;
+    color: white;
+}
+
+.error-message {
+    background-color: #dc3545;
+    color: white;
+}
+
+.message.show {
     opacity: 1;
 }
 
