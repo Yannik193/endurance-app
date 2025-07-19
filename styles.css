@@ -59,6 +59,7 @@ label {
 
 input[type="text"],
 input[type="number"],
+input[type="date"],
 select {
     width: 100%;
     padding: 15px;
@@ -75,6 +76,7 @@ select {
 
 input[type="text"]:focus,
 input[type="number"]:focus,
+input[type="date"]:focus,
 select:focus {
     border-color: #007AFF;
 }
@@ -155,6 +157,7 @@ select option {
 @media screen and (max-width: 375px) {
     input[type="text"],
     input[type="number"],
+    input[type="date"],
     select {
         font-size: 16px;
     }

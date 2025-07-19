@@ -15,6 +15,9 @@ if ('serviceWorker' in navigator) {
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('workoutForm');
     
+    // Set current date as default
+    setDefaultDate();
+    
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         saveWorkout();
@@ -27,6 +30,13 @@ document.addEventListener('DOMContentLoaded', function() {
         input.addEventListener('blur', validateTimeFormat);
     });
 });
+
+function setDefaultDate() {
+    const dateInput = document.getElementById('date');
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0];
+    dateInput.value = formattedDate;
+}
 
 function validateTimeFormat(e) {
     const input = e.target;
@@ -105,6 +115,9 @@ function clearForm() {
     
     // Reset activity dropdown to default
     document.getElementById('activity').selectedIndex = 0;
+    
+    // Reset date to current date
+    setDefaultDate();
 }
 
 // Prevent zoom on double tap

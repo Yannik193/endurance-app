@@ -19,15 +19,15 @@
     "tracking",
     "offline"
   ],
-  "author": "Your Name",
+  "author": "Yannik",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/endurance-app.git"
+    "url": "https://github.com/Yannik193/endurance-app.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/endurance-app/issues"
+    "url": "https://github.com/Yannik193/endurance-app/issues"
   },
-  "homepage": "https://github.com/yourusername/endurance-app#readme",
+  "homepage": "https://github.com/Yannik193/endurance-app#readme",
   "devDependencies": {}
 }
